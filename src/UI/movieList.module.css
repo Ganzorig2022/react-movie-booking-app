@@ -1,0 +1,57 @@
+/* Kino songoh hesgiin style */
+.movieContainer {
+  margin: 20px auto;
+  width: 1000px;
+  display: flex;
+  /* flex-direction: column; */
+  align-items: center;
+  justify-content: center;
+}
+.movieItems {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  justify-content: space-evenly;
+  align-items: center;
+  border: 1px solid white;
+  border-radius: 10px;
+  margin: 0 20px;
+  box-shadow: 0px 1px 2px 0px rgba(0, 255, 255, 0.7),
+    1px 2px 4px 0px rgba(0, 255, 255, 0.7),
+    2px 4px 8px 0px rgba(0, 255, 255, 0.7),
+    2px 4px 16px 0px rgba(0, 255, 255, 0.7);
+  transition: transform 200ms ease-in-out;
+}
+img {
+  width: 200px;
+  height: 300px;
+  border-radius: 10px;
+}
+.movieItems:hover {
+  transform: scale(1.04);
+}
+
+.headerContainer {
+  width: 200px;
+}
+.header {
+  text-align: center;
+  color: crimson;
+  font-size: 1rem;
+}
+
+.orderText {
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 10px 20px;
+  background-color: crimson;
+}
+button {
+  color: azure;
+  outline: 0;
+  border: none;
+  border-radius: 10px;
+}
+button:active {
+  transform: scale(1.1);
+}

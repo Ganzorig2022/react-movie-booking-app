@@ -1,0 +1,105 @@
+.timeContainer {
+  margin: 50px auto;
+  width: 1000px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.seat {
+  background-color: #444451;
+  height: 12px;
+  width: 15px;
+  margin: 3px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.seat.selected {
+  background-color: #6feaf6;
+}
+
+.seat.occupied {
+  background-color: #fff;
+}
+
+.showcase {
+  background: rgba(0, 0, 0, 0.1);
+  padding: 5px 10px;
+  border-radius: 5px;
+  color: #777;
+  list-style-type: none;
+  display: flex;
+  justify-content: center;
+}
+
+.showcase li {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 10px;
+}
+.showcase li small {
+  margin-left: 2px;
+}
+h2 {
+  text-align: center;
+}
+
+.timeSelectContainer {
+  width: 300px;
+  /* height: 300px; */
+  background-color: #fff;
+  color: black;
+  padding: 20px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+.timeListContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.timeSelectContainer p {
+  font-weight: 600;
+  font-size: 1rem;
+  background-color: #6feaf6;
+  width: 290px;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+.timeSelectContainer .times {
+  border: 2px solid #6feaf6;
+  padding: 10px;
+  border-radius: 10px;
+  margin: 10px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  font-size: 0.75rem;
+}
+.timeSelectContainer .times:hover {
+  cursor: pointer;
+  background-color: aqua;
+  color: crimson;
+}
+
+.times.active {
+  background-color: crimson;
+  color: black;
+}
+
+/*  */
+
+.selectDay {
+  width: 100px;
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid #6feaf6;
+  background-color: #dcdcdc;
+}
+
+label {
+  font-size: 0.75rem;
+}
