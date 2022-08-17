@@ -1,9 +1,11 @@
 import styles from '../UI/timeList.module.css';
 import timeData from '../TimeData.json';
 import { useState } from 'react';
+import { useMovieDataContext } from './MovieDataContext';
 
 const TimeSchedule = () => {
   const [isActive, setIsActive] = useState(false);
+  const { movieData, setMovieData } = useMovieDataContext();
 
   const timeClickHandler = (event) => {
     // console.log(event.currentTarget.textContent);
@@ -11,6 +13,9 @@ const TimeSchedule = () => {
   };
   return (
     <div>
+      <div>
+        <img src={movieData.Poster} alt='' />
+      </div>
       <h2>Цагийн хуваарь</h2>
       <div className={styles.timeSelectContainer}>
         <p>Цагаа сонгоно уу:</p>
