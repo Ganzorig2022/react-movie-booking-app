@@ -1,0 +1,38 @@
+.ticketContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.ticketOrderContainer {
+  background-color: white;
+  color: black;
+  border-radius: 10px;
+  width: 1000px;
+  margin: 50px auto;
+  padding: 20px;
+}
+.ticketNumberIncreaseContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.ticketNumberIncreaseContainer button {
+  background-color: #6feaf6;
+  border: 1px solid black;
+
+  color: black;
+  border-radius: 0;
+  font-size: 2rem;
+}
+
+.ticketNumberIncreaseContainer select {
+  width: 50px;
+  height: 40px;
+  font-size: 1.5rem;
+}
+
+.buttonContainer button {
+  background-color: crimson;
+  padding: 5px 10px;
+  margin: 10px;
+}

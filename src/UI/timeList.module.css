@@ -1,3 +1,8 @@
+.timeWrapper {
+  display: flex;
+  align-items: center;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
 .timeContainer {
   margin: 50px auto;
   width: 1000px;
@@ -5,6 +10,37 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+}
+.timeRightContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.timeSelectContainer {
+  width: 300px;
+  /* height: 300px; */
+  background-color: #fff;
+  color: black;
+  padding: 20px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  margin: 0 50px 10px;
+}
+.inputArea {
+  display: flex;
+  flex-direction: column;
+}
+.inputArea label {
+  margin-top: 10px;
+}
+.inputArea input {
+  outline: none;
+  border-radius: 5px;
+  border: 1px solid #777;
 }
 .seats {
   /* background-color: #444451; */
@@ -36,7 +72,7 @@
 }
 
 .seat.occupied {
-  background-color: #fff;
+  background-color: crimson;
 }
 
 .showcase {
@@ -62,18 +98,6 @@ h2 {
   text-align: center;
 }
 
-.timeSelectContainer {
-  width: 300px;
-  /* height: 300px; */
-  background-color: #fff;
-  color: black;
-  padding: 20px;
-  border-radius: 10px;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-}
 .timeListContainer {
   display: flex;
   flex-wrap: wrap;
@@ -89,7 +113,7 @@ h2 {
 }
 .timeSelectContainer .times {
   border: 2px solid #6feaf6;
-  padding: 10px;
+  padding: 5px;
   border-radius: 10px;
   margin: 10px;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
@@ -106,8 +130,6 @@ h2 {
   color: black;
 }
 
-/*  */
-
 .selectDay {
   width: 100px;
   padding: 5px;
@@ -120,18 +142,17 @@ label {
   font-size: 0.75rem;
 }
 
-.seatsContainer {
-  display: flex;
-  flex-direction: column;
+img {
+  width: 300px;
+  height: 400px;
+  margin: 50px;
+  border: 3px solid white;
+  /* background-position: center;
+  background-size: contain; */
 }
-.screenContainer {
-  perspective: 500px;
-}
-.screen {
-  background-color: rgb(156, 156, 156) !important;
-  height: 70px;
-  width: 100%;
-  margin: 15px 0;
-  transform: rotateX(-45deg);
-  box-shadow: 0 3px 10px rgba(255, 255, 255, 0.7);
+
+.buttonContainer button {
+  background-color: crimson;
+  padding: 5px 10px;
+  margin: 10px;
 }
