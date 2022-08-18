@@ -1,8 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Routes, Route, useNavigate } from 'react-router-dom';
 import { useMovieDataContext } from './MovieDataContext';
 import styles from '../UI/movieList.module.css';
-import { useState } from 'react';
 
 const MovieList = ({ movies }) => {
   const navigate = useNavigate();

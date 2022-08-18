@@ -1,7 +1,10 @@
 .timeWrapper {
   display: flex;
   align-items: center;
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  box-shadow: 0px 1px 2px 0px rgba(0, 255, 255, 0.7),
+    1px 2px 4px 0px rgba(0, 255, 255, 0.7),
+    2px 4px 8px 0px rgba(0, 255, 255, 0.7),
+    2px 4px 16px 0px rgba(0, 255, 255, 0.7);
 }
 .timeContainer {
   margin: 50px auto;
@@ -30,17 +33,25 @@
   align-items: flex-start;
   margin: 0 50px 10px;
 }
+/* ======================INPUT STYLES ===============*/
 .inputArea {
   display: flex;
   flex-direction: column;
 }
 .inputArea label {
   margin-top: 10px;
+  font-weight: 600;
 }
-.inputArea input {
+.inputArea .inputFormArea {
   outline: none;
   border-radius: 5px;
   border: 1px solid #777;
+}
+.inputFormArea.success {
+  border: 2px solid #2ecc71;
+}
+.inputFormArea.error {
+  border: 2px solid #e74c3c;
 }
 .seats {
   /* background-color: #444451; */
@@ -49,51 +60,7 @@
   margin: 3px;
   box-shadow: rgba(147, 147, 147, 0.35) 0px 5px 15px;
 }
-/* .seats:hover {
-  cursor: pointer;
-  background-color: aqua;
-  color: crimson;
-} */
-/* .seats.active {
-  background-color: aqua;
-  color: black;
-} */
-.seat {
-  background-color: #444451;
-  height: 15px;
-  width: 20px;
-  margin: 3px;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
-}
 
-.seat.selected {
-  background-color: #6feaf6;
-}
-
-.seat.occupied {
-  background-color: crimson;
-}
-
-.showcase {
-  background: rgba(0, 0, 0, 0.1);
-  padding: 5px 10px;
-  border-radius: 5px;
-  color: #777;
-  list-style-type: none;
-  display: flex;
-  justify-content: center;
-}
-
-.showcase li {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 10px;
-}
-.showcase li small {
-  margin-left: 2px;
-}
 h2 {
   text-align: center;
 }
@@ -107,15 +74,16 @@ h2 {
   font-weight: 600;
   font-size: 1rem;
   background-color: #6feaf6;
-  width: 290px;
+  width: 260px;
   padding: 5px 10px;
   border-radius: 5px;
+  margin: 10px 0;
 }
 .timeSelectContainer .times {
   border: 2px solid #6feaf6;
   padding: 5px;
   border-radius: 10px;
-  margin: 10px;
+  margin: 5px 10px;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   font-size: 0.75rem;
 }
@@ -126,8 +94,9 @@ h2 {
 }
 
 .times.active {
-  background-color: crimson;
+  background-color: #6feaf6;
   color: black;
+  border: 2px solid crimson;
 }
 
 .selectDay {
@@ -142,7 +111,7 @@ label {
   font-size: 0.75rem;
 }
 
-img {
+.leftImg img {
   width: 300px;
   height: 400px;
   margin: 50px;
@@ -155,4 +124,5 @@ img {
   background-color: crimson;
   padding: 5px 10px;
   margin: 10px;
+  border-radius: 10px;
 }

@@ -22,10 +22,10 @@
     2px 4px 16px 0px rgba(0, 255, 255, 0.7);
   transition: transform 200ms ease-in-out;
 }
-img {
+.movieItems img {
   width: 200px;
   height: 300px;
-  border-radius: 10px;
+  border: none;
 }
 .movieItems:hover {
   transform: scale(1.04);
@@ -36,7 +36,6 @@ img {
 }
 .header {
   text-align: center;
-  color: crimson;
   font-size: 1rem;
 }
 
@@ -50,7 +49,6 @@ button {
   color: azure;
   outline: 0;
   border: none;
-  border-radius: 10px;
 }
 button:active {
   transform: scale(1.1);

@@ -1,4 +1,4 @@
-import styles from '../UI/timeList.module.css';
+import styles from '../UI/legendItems.module.css';
 
 const LegendItems = () => {
   return (

@@ -1,48 +1,43 @@
 import styles from '../UI/movieSeat.module.css';
+import clsx from 'classnames';
+
 import { useState } from 'react';
-import { Routes, Route, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useMovieDataContext } from './MovieDataContext';
 import { useUserDataContext } from './userOrderContext';
-import { useGetIDContext } from './GetIDContext';
 import LegendItems from './Legend';
 
 const MovieHall = () => {
   const navigate = useNavigate();
   const [seatID, setSeatID] = useState([]);
-  const [isActive, setIsActive] = useState(true);
-  const { isClickedID, setIsClickedID } = useGetIDContext();
+  // const [occupiedSeat, setOccupiedSeat] = useState([]);
   const { userData, setUserData } = useUserDataContext();
   const { movieData } = useMovieDataContext();
   const seatArr = new Array(33).fill(0);
+  const ticketPrice = 7000;
 
+  const occupiedSeat = JSON.parse(localStorage.getItem('selectedSeats'));
+
+  // console.log('from local', occupiedSeat);
   const inputClickHandler = (event) => {
     const value = +event.target.id;
-    setIsActive(!isActive);
-    getIDHandler(value);
 
-    // console.log(filtered);
     const isSelected = seatID.includes(value);
 
     if (!isSelected) setSeatID([...seatID, value]);
     if (isSelected) setSeatID(seatID.filter((id) => id !== value));
-
-    // localStorage.setItem('selectedSeats', JSON.stringify(seatID));
   };
-
-  // 2. Darsan suudalnii ID-g hadgaldag heseg
-  const getIDHandler = (id) => {
-    setIsClickedID(id);
-  };
-
-  console.log(seatID);
 
   const prevPageHandler = () => {
-    navigate('/ticket');
+    navigate('/time');
   };
   const nextPageHandler = () => {
-    navigate(null);
+    // navigate(null);
+    const occupiedSeat = JSON.parse(localStorage.getItem('selectedSeats'));
+    const lastArr = [].concat(...occupiedSeat, ...seatID);
+    localStorage.removeItem('selectedSeats');
+    localStorage.setItem('selectedSeats', JSON.stringify(lastArr));
   };
-  // console.log(userData);
 
   return (
     <>
@@ -58,15 +53,20 @@ const MovieHall = () => {
               <div className={styles.suudalContainer}>
                 {seatArr.map((seat, idx) => {
                   const isSelected = seatID.includes(idx);
+                  const isOccupied = occupiedSeat.includes(idx);
                   return (
                     <div
                       id={idx}
                       key={idx}
-                      className={
+                      className={clsx(
+                        styles.seats,
                         isSelected
                           ? styles.seats + ' ' + styles.selected
+                          : styles.seats,
+                        isOccupied
+                          ? styles.seats + ' ' + styles.occupied
                           : styles.seats
-                      }
+                      )}
                       onClick={inputClickHandler}
                     >
                       {idx}
@@ -78,7 +78,7 @@ const MovieHall = () => {
             </div>
           </div>
           <div className={styles.buttonContainer}>
-            <button onClick={nextPageHandler}>Үргэлжлүүлэх</button>
+            <button onClick={nextPageHandler}>Төлбөр төлөх</button>
             <button onClick={prevPageHandler}>Буцах</button>
           </div>
         </div>
@@ -88,13 +88,25 @@ const MovieHall = () => {
             <p>{userData.name}</p>
             <h3>Киноны нэр:</h3>
             <p>{movieData.Title}</p>
-            <h3>Танхимын №:</h3>
-            <p>{userData.hall}</p>
             <h3>Үзвэрийн цаг:</h3>
-            <p>{userData.time}</p>
+            <p>
+              {userData.time} ({userData.day})
+            </p>
             <h3>Билетын тоо:</h3>
+            <p> {userData.ticket} ш</p>
             <h3>Суудлын №:</h3>
-            <h3>Билетын үнэ:</h3>
+            <p>
+              {seatID.join(', ')} ({seatID.length} ш)
+            </p>
+            <h3>Билетын үнэ: </h3>
+            <p>7000 ₮</p>
+            <h3>Нийт үнэ: </h3>
+            <p>
+              {seatID.length > 0 && !isNaN(+userData.ticket)
+                ? (seatID.length * +userData.ticket * ticketPrice).toFixed(1)
+                : ''}{' '}
+              ₮
+            </p>
           </div>
           <div>
             <img src={movieData.Poster} alt='movie-image' />
