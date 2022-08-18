@@ -11,15 +11,20 @@
   margin: 50px auto;
   padding: 20px;
 }
+
 .ticketNumberIncreaseContainer {
   display: flex;
   justify-content: center;
   align-items: center;
+  border: 1px solid black;
+  width: 400px;
+}
+.ticketNumberIncreaseContainer:first-child{
+  color: red
 }
 .ticketNumberIncreaseContainer button {
   background-color: #6feaf6;
   border: 1px solid black;
-
   color: black;
   border-radius: 0;
   font-size: 2rem;

@@ -6,9 +6,13 @@ import { useMovieDataContext } from './MovieDataContext';
 import { useUserDataContext } from './userOrderContext';
 
 const TimeSchedule = () => {
-  const [enteredInput, setEnteredInputs] = useState('');
-  const [selectedTime, setSelectedTime] = useState('');
-  const [selectedOption, setselectedOption] = useState('');
+  const [enteredInput, setEnteredInputs] = useState({
+    name: '',
+    phone: '',
+    email: '',
+  });
+  const [selectedTime, setSelectedTime] = useState({ time: '' });
+  const [selectedOption, setSelectedOption] = useState({ day: '', hall: '' });
   const [isActive, setIsActive] = useState(false);
   const { movieData } = useMovieDataContext();
   const { userData, setUserData } = useUserDataContext();
@@ -24,23 +28,23 @@ const TimeSchedule = () => {
   // 2. Ner,Email,Pass hadgaldag eventHandler
   const eventHandler = (event) => {
     const { name, value } = event.target;
+
     setEnteredInputs({ ...enteredInput, [name]: value });
   };
-  // if (Object.keys(enteredInput).length < 3)
-  //   return alert('Та бүх талбараа оруулна уу');
-
+  console.log(enteredInput);
   //3. Odor, tanhim songodog eventHandler
   const selectOptionHandler = (event) => {
     const value = event.target.value;
     const name = event.target.selectedOptions[0].getAttribute('name');
-    setselectedOption({ ...selectedOption, [name]: value });
+
+    setSelectedOption({ ...selectedOption, [name]: value });
   };
 
   //4. Buh data-g hadgaldag eventHandler
   const submitHandler = () => {
     setUserData({
       ...enteredInput,
-      time: selectedTime,
+      ...selectedTime,
       ...selectedOption,
     });
   };
@@ -50,8 +54,19 @@ const TimeSchedule = () => {
     navigate('/');
   };
   const nextPageHandler = () => {
-    submitHandler();
-    navigate('/ticket');
+    let emailPattern = /^[^ ]+@[^ ]+.[a-z]{2,3}$/;
+    if (enteredInput.name === '') alert('Та нэрээ зөв оруулна уу!');
+    if ((enteredInput.phone = '' || enteredInput.phone.length !== 8))
+      alert('Та утсаа зөв оруулна уу!');
+    if (enteredInput.email === '' || !enteredInput.email.match(emailPattern))
+      alert('Та имэйлээ зөв оруулна уу!');
+    if (selectedTime.time === '') alert('Та цагаа заавал  сонгоно уу!');
+    if (selectedOption.day === '') alert('Та өдрөө заавал  сонгоно уу!');
+    if (selectedOption.hall === '') alert('Та танхимаа заавал  сонгоно уу!');
+    else {
+      submitHandler();
+      navigate('/ticket');
+    }
   };
 
   return (
@@ -67,21 +82,21 @@ const TimeSchedule = () => {
             <input
               type='text'
               name='name'
-              value={userData.name}
+              value={enteredInput.name}
               onChange={eventHandler}
             />
             <label>Утас*</label>
             <input
               type='phone'
               name='phone'
-              value={userData.phone}
+              value={enteredInput.phone}
               onChange={eventHandler}
             />
             <label>Имэйл*</label>
             <input
               type='email'
               name='email'
-              value={userData.email}
+              value={enteredInput.email}
               onChange={eventHandler}
             />
           </div>

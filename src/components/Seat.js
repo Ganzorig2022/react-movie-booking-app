@@ -20,9 +20,11 @@ const MovieHall = () => {
     setIsActive(!isActive);
     getIDHandler(value);
 
+    // console.log(filtered);
     const isSelected = seatID.includes(value);
 
     if (!isSelected) setSeatID([...seatID, value]);
+    if (isSelected) setSeatID(seatID.filter((id) => id !== value));
 
     // localStorage.setItem('selectedSeats', JSON.stringify(seatID));
   };
@@ -35,10 +37,10 @@ const MovieHall = () => {
   console.log(seatID);
 
   const prevPageHandler = () => {
-    navigate('/time');
+    navigate('/ticket');
   };
   const nextPageHandler = () => {
-    navigate('/ticket');
+    navigate(null);
   };
   // console.log(userData);
 
@@ -55,14 +57,13 @@ const MovieHall = () => {
               </div>
               <div className={styles.suudalContainer}>
                 {seatArr.map((seat, idx) => {
-                  const isSelected = seatID.includes(seat);
-                  console.log(isSelected);
+                  const isSelected = seatID.includes(idx);
                   return (
                     <div
                       id={idx}
                       key={idx}
                       className={
-                        isSelected && isActive
+                        isSelected
                           ? styles.seats + ' ' + styles.selected
                           : styles.seats
                       }
