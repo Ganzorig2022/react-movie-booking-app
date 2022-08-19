@@ -1,7 +1,7 @@
 import styles from '../UI/movieSeat.module.css';
 import clsx from 'classnames';
-
-import { useState } from 'react';
+import { getDataFromFireStore, addSeatDataToFireStore } from '../firebase';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useMovieDataContext } from './MovieDataContext';
 import { useUserDataContext } from './userOrderContext';
@@ -10,13 +10,24 @@ import LegendItems from './Legend';
 const MovieHall = () => {
   const navigate = useNavigate();
   const [seatID, setSeatID] = useState([]);
-  // const [occupiedSeat, setOccupiedSeat] = useState([]);
+  const [occupiedSeat, setOccupiedSeat] = useState([]);
   const { userData, setUserData } = useUserDataContext();
   const { movieData } = useMovieDataContext();
   const seatArr = new Array(33).fill(0);
   const ticketPrice = 7000;
 
-  const occupiedSeat = JSON.parse(localStorage.getItem('selectedSeats'));
+  //==========1. Get Seat Data from FireStore database=======
+  const getSeatData = async () => {
+    const data = await getDataFromFireStore();
+    // console.log(data);
+    const seatData = await data.user.seat;
+    setOccupiedSeat([...seatData]);
+  };
+
+  useEffect(() => {
+    getSeatData();
+  }, []);
+  // occupiedSeat = JSON.parse(localStorage.getItem('selectedSeats'));
 
   // console.log('from local', occupiedSeat);
   const inputClickHandler = (event) => {
@@ -33,12 +44,11 @@ const MovieHall = () => {
   };
   const nextPageHandler = () => {
     // navigate(null);
-    const occupiedSeat = JSON.parse(localStorage.getItem('selectedSeats'));
-    const lastArr = [].concat(...occupiedSeat, ...seatID);
-    localStorage.removeItem('selectedSeats');
-    localStorage.setItem('selectedSeats', JSON.stringify(lastArr));
+    setOccupiedSeat([...occupiedSeat.concat(...seatID)]);
   };
 
+  console.log(seatID);
+  console.log(occupiedSeat);
   return (
     <>
       <h1>Суудал сонголт</h1>
