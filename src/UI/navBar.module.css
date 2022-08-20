@@ -1,0 +1,71 @@
+.header {
+  /* position: fixed;
+  top: 0;
+  left: 0; */
+  height: 5rem;
+  background: radial-gradient(
+    circle at 0% 0.5%,
+    rgb(241, 241, 242) 0.1%,
+    rgb(224, 226, 228) 100.2%
+  );
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 10%;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
+    rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+  z-index: 10;
+  color: black;
+  margin-top: 50px;
+  overflow: hidden;
+}
+.labelsContainer {
+  /* color: red; */
+  /* height: 100%; */
+  text-transform: uppercase;
+}
+.labelsContainer ul {
+  display: flex;
+  list-style: none;
+  height: 100%;
+}
+.labelsContainer ul li {
+  padding: 30px 30px 26px;
+  /* margin-left: 20px; */
+  cursor: pointer;
+  transition: all 300ms ease-in-out;
+  border-bottom: 4px solid transparent;
+  font-weight: 600;
+}
+
+.labelsContainer ul li.active {
+  border-bottom: 4px solid #6feaf6;
+  background-color: black;
+}
+.labelsContainer ul li.active > a {
+  color: white;
+}
+.labelsContainer ul li:hover {
+  background-color: black;
+  border-bottom: 4px solid #6feaf6;
+}
+.labelsContainer ul li:hover > a {
+  color: aliceblue;
+}
+.labelsContainer ul li a {
+  text-decoration: none;
+  color: black;
+}
+.main-image {
+  width: 100%;
+  height: 25rem;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.main-image img {
+  width: 110%;
+  height: 100%;
+  object-fit: cover;
+  transform: rotateZ(-5deg) translateY(-4rem) translateX(-1rem);
+}

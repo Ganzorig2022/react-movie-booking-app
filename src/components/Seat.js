@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { useMovieDataContext } from './MovieDataContext';
 import { useUserDataContext } from './userOrderContext';
 import LegendItems from './Legend';
+import img from '../img/no-image.jpg';
 
 const MovieHall = () => {
   const navigate = useNavigate();
@@ -19,17 +20,15 @@ const MovieHall = () => {
   //==========1. Get Seat Data from FireStore database=======
   const getSeatData = async () => {
     const data = await getDataFromFireStore();
-    // console.log(data);
-    const seatData = await data.user.seat;
+    const seatData = await data.seat;
     setOccupiedSeat([...seatData]);
   };
 
   useEffect(() => {
     getSeatData();
   }, []);
-  // occupiedSeat = JSON.parse(localStorage.getItem('selectedSeats'));
 
-  // console.log('from local', occupiedSeat);
+  //==============2. Get Seat Number, then set it=========================
   const inputClickHandler = (event) => {
     const value = +event.target.id;
 
@@ -39,16 +38,29 @@ const MovieHall = () => {
     if (isSelected) setSeatID(seatID.filter((id) => id !== value));
   };
 
+  // ========================3. Jump to PREVIOUS page==============
   const prevPageHandler = () => {
     navigate('/time');
   };
+
+  // ========================4. Jump to NEXT page==============
   const nextPageHandler = () => {
     // navigate(null);
-    setOccupiedSeat([...occupiedSeat.concat(...seatID)]);
+    if (checkEqualSeatAndTicket()) {
+      let document = JSON.parse(localStorage.getItem('docID'));
+      let docID = document.docID;
+      addSeatDataToFireStore(seatID, userData, docID);
+    }
   };
 
-  console.log(seatID);
-  console.log(occupiedSeat);
+  // ========================5. Check if seat number is equal to ticket number or not==============
+  const checkEqualSeatAndTicket = () => {
+    if (seatID.length !== +userData.ticket) {
+      alert('Та захиалсан билетний тоотой тэнцүү тоотой суудал сонгоно уу?');
+      return false;
+    } else return true;
+  };
+
   return (
     <>
       <h1>Суудал сонголт</h1>
@@ -103,7 +115,7 @@ const MovieHall = () => {
               {userData.time} ({userData.day})
             </p>
             <h3>Билетын тоо:</h3>
-            <p> {userData.ticket} ш</p>
+            <p> {userData.ticket} </p>
             <h3>Суудлын №:</h3>
             <p>
               {seatID.join(', ')} ({seatID.length} ш)
@@ -119,7 +131,11 @@ const MovieHall = () => {
             </p>
           </div>
           <div>
-            <img src={movieData.Poster} alt='movie-image' />
+            {movieData.Poster ? (
+              <img src={movieData.Poster} />
+            ) : (
+              <img src={img} />
+            )}
           </div>
         </div>
       </div>

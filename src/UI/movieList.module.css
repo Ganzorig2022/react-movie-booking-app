@@ -1,6 +1,6 @@
 /* Kino songoh hesgiin style */
 .movieContainer {
-  margin: 20px auto;
+  margin: 100px auto;
   width: 1000px;
   display: flex;
   /* flex-direction: column; */

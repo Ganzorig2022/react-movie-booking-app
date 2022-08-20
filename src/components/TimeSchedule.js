@@ -5,6 +5,7 @@ import { useUserDataContext } from './userOrderContext';
 import styles from '../UI/timeList.module.css';
 import timeData from '../TimeData.json';
 import weekData from '../WeekData.json';
+import img from '../img/no-image.jpg';
 
 const TimeSchedule = () => {
   const ticketArr = new Array(10).fill(0);
@@ -13,7 +14,12 @@ const TimeSchedule = () => {
     phone: '',
     email: '',
   });
-  const [inputIsValid, setInputIsValid] = useState({
+  const [validInputs, setValidInputs] = useState({
+    name: '',
+    phone: '',
+    email: '',
+  });
+  const [isValid, setIsValid] = useState({
     nameEmpty: true,
     nameValid: false,
     emailEmpty: true,
@@ -29,30 +35,34 @@ const TimeSchedule = () => {
   const { userData, setUserData } = useUserDataContext();
   const navigate = useNavigate();
 
+  // useEffect(() => {
+  //   if (movieData === '')
+  //     alert('Та киногоо сонгосноор захиалга өгөх боломжтой!');
+  // }, []);
+
   //========================Name check====================================
   const checkName = (name) => {
     if (name.length > 3) {
-      setInputIsValid({ ...inputIsValid, nameEmpty: false, nameValid: true });
+      setIsValid({ ...isValid, nameEmpty: false, nameValid: true });
       return true;
     } else {
-      alert('Та нэрээ зөв өгөхдөө хамгийн багадаа 3 тэмдэгт оруулна уу!');
-      setInputIsValid({ ...inputIsValid, nameEmpty: false, nameValid: false });
+      // alert('Та нэрээ зөв өгөхдөө хамгийн багадаа 3 тэмдэгт оруулна уу!');
+      setIsValid({ ...isValid, nameEmpty: false, nameValid: false });
       return false;
     }
   };
   //=========================Phone Check===============================
   const checkPhone = (phone) => {
     if (phone.length !== 8) {
-      alert('Та утсаа зөв оруулахдаа хамгийн багадаа 8н тоо оруулна уу!');
-      setInputIsValid({
-        ...inputIsValid,
+      setIsValid({
+        ...isValid,
         phoneEmpty: false,
         phoneValid: false,
       });
       return false;
     } else {
-      setInputIsValid({
-        ...inputIsValid,
+      setIsValid({
+        ...isValid,
         phoneEmpty: false,
         phoneValid: true,
       });
@@ -60,16 +70,16 @@ const TimeSchedule = () => {
     }
   };
   //========================Email Check==================================
+
   const checkEmail = (email) => {
     let emailRegex = /^[^ ]+@[^ ]+.[a-z]{2,3}$/;
 
     if (emailRegex.test(email.trim())) {
-      setInputIsValid({ ...inputIsValid, emailEmpty: false, emailValid: true });
+      setIsValid({ ...isValid, emailEmpty: false, emailValid: true });
       return true;
     } else {
-      alert('Та имэйлээ зөв оруулна уу!');
-      setInputIsValid({
-        ...inputIsValid,
+      setIsValid({
+        ...isValid,
         emailEmpty: false,
         emailValid: false,
       });
@@ -77,15 +87,12 @@ const TimeSchedule = () => {
     }
   };
 
-  //=================1. Ner,Email,Pass hadgaldag eventHandler====================
+  //=================1. Name,Email,Pass hadgaldag eventHandler====================
   const eventHandler = (event) => {
     const { name, value } = event.target;
-    if (name === 'name')
-      checkName(value) && setEnteredInputs({ ...enteredInput, [name]: value });
-    if (name === 'phone')
-      checkPhone(value) && setEnteredInputs({ ...enteredInput, [name]: value });
-    if (name === 'email')
-      checkEmail(value) && setEnteredInputs({ ...enteredInput, [name]: value });
+    if (name === 'name') setEnteredInputs({ ...enteredInput, [name]: value });
+    if (name === 'phone') setEnteredInputs({ ...enteredInput, [name]: value });
+    if (name === 'email') setEnteredInputs({ ...enteredInput, [name]: value });
   };
 
   //===================2. Tsag songoj hadgaldag eventHandler===================
@@ -103,6 +110,25 @@ const TimeSchedule = () => {
     const name = event.target.selectedOptions[0].getAttribute('name');
     setSelectedOption({ ...selectedOption, [name]: value });
   };
+
+  useEffect(() => {
+    checkAll();
+  }, [enteredInput]);
+
+  const checkAll = () => {
+    if (
+      checkName(enteredInput.name) &&
+      checkPhone(enteredInput.phone) &&
+      checkEmail(enteredInput.email)
+    )
+      setValidInputs({
+        ...validInputs,
+        name: enteredInput.name,
+        phone: enteredInput.phone,
+        email: enteredInput.email,
+      });
+  };
+  console.log('valid', validInputs);
 
   //===============4. Buh data-g hadgaldag heseg============================
   const saveAllData = () => {
@@ -127,10 +153,6 @@ const TimeSchedule = () => {
     }
   };
 
-  // useEffect(() => {
-  //   localStorage.setItem('userAllData', JSON.stringify(userData));
-  // }, [userData]);
-
   //===============5. Omnoh Page-ruu JUMP hiine.=================================
   const prevPageHandler = () => {
     navigate('/');
@@ -139,11 +161,10 @@ const TimeSchedule = () => {
   const nextPageHandler = () => {
     if (saveAllData()) navigate('/seat');
   };
-
   return (
     <div className={styles.timeWrapper}>
       <div className={styles.leftImg}>
-        <img src={movieData.Poster} alt='' />
+        {movieData.Poster ? <img src={movieData.Poster} /> : <img src={img} />}
       </div>
       <div className={styles.timeRightContainer}>
         <h2>Захиалгын хэсэг</h2>
@@ -157,9 +178,9 @@ const TimeSchedule = () => {
               value={enteredInput.name}
               onChange={eventHandler}
               className={
-                inputIsValid.nameEmpty
+                isValid.nameEmpty
                   ? styles.inputFormArea
-                  : inputIsValid.nameValid
+                  : isValid.nameValid
                   ? styles.inputFormArea + ' ' + styles.success
                   : styles.inputFormArea + ' ' + styles.error
               }
@@ -171,9 +192,9 @@ const TimeSchedule = () => {
               value={enteredInput.phone}
               onChange={eventHandler}
               className={
-                inputIsValid.phoneEmpty
+                isValid.phoneEmpty
                   ? styles.inputFormArea
-                  : inputIsValid.phoneValid
+                  : isValid.phoneValid
                   ? styles.inputFormArea + ' ' + styles.success
                   : styles.inputFormArea + ' ' + styles.error
               }
@@ -185,9 +206,9 @@ const TimeSchedule = () => {
               value={enteredInput.email}
               onChange={eventHandler}
               className={
-                inputIsValid.emailEmpty
+                isValid.emailEmpty
                   ? styles.inputFormArea
-                  : inputIsValid.emailValid
+                  : isValid.emailValid
                   ? styles.inputFormArea + ' ' + styles.success
                   : styles.inputFormArea + ' ' + styles.error
               }
@@ -233,7 +254,7 @@ const TimeSchedule = () => {
             <select className={styles.selectDay} onChange={selectOptionHandler}>
               {ticketArr.map((el, idx) => {
                 return (
-                  <option key={idx} name='ticket'>
+                  <option key={idx} name='ticket' value={idx + 1}>
                     {idx + 1} ш
                   </option>
                 );

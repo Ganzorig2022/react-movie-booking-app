@@ -35,18 +35,36 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
+// =========1. Get User Data from FireStore database=============
 const getDataFromFireStore = async () => {
   const docData = await query(collection(db, 'userData'));
   const queryData = await getDocs(docData);
 
   let userDataObj = {};
+  let docID = '';
   queryData.forEach((doc) => {
     userDataObj = doc.data();
+    docID = doc.id;
   });
-  localStorage.setItem('userData', JSON.stringify(userDataObj));
+  localStorage.setItem('docID', JSON.stringify({ docID: docID }));
   return userDataObj;
 };
 
-const addSeatDataToFireStore = () => {};
+// =========2. Get User Data from FireStore database=============
+
+const addSeatDataToFireStore = async (seatID, userData, docID) => {
+  try {
+    const docRef = await doc(db, 'userData', docID);
+    const docRefData = await getDoc(docRef);
+    const seat = docRefData.data().seat;
+
+    updateDoc(docRef, {
+      seat: arrayUnion(...seatID),
+      userData: arrayUnion({ ...userData }),
+    });
+  } catch (error) {
+    alert(error.message);
+  }
+};
 
 export { getDataFromFireStore, addSeatDataToFireStore };
