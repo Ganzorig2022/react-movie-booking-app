@@ -63,9 +63,13 @@ const MovieHall = () => {
       let document = JSON.parse(localStorage.getItem('docID'));
       let docID = document.docID;
       addSeatDataToFireStore(seatID, userData, docID);
+      alert('Таны захиалга амжилттай баталгаажлаа!');
     }
   };
 
+  const cancelOrderHandler = () => {
+    navigate('/cancel');
+  };
   // ========================5. Check if seat number is equal to ticket number or not==============
   const checkEqualSeatAndTicket = () => {
     if (seatID.length !== +userData.ticket) {
@@ -81,6 +85,10 @@ const MovieHall = () => {
         <div className={styles.seatLeftContainer}>
           <div className={styles.seatWrapper}>
             <p>Суудлаа сонгоно уу:</p>
+            <small>
+              *Дэлгэц нь зөвхөн суудлын зүг чигийг заах бөгөөд дэлгэцнээс суудал
+              хоорондох зай бодит биш болно.
+            </small>
             <div className={styles.seatsContainer}>
               <div className={styles.screenContainer}>
                 <p className={styles.screen}>Дэлгэц</p>
@@ -142,6 +150,9 @@ const MovieHall = () => {
                 : ''}{' '}
               ₮
             </p>
+            <div className={styles.buttonContainer}>
+              <button onClick={cancelOrderHandler}>Цуцлах</button>
+            </div>
           </div>
           <div>
             {movieData.Poster ? (

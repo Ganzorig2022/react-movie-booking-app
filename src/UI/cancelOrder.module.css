@@ -1,0 +1,15 @@
+.cancelSelectContainer {
+  width: 600px;
+  height: 200px;
+  background-color: #fff;
+  color: black;
+  padding: 20px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0 50px 10px;
+  font-weight: 600;
+  font-size: 1.5rem;
+}

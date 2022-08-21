@@ -136,7 +136,7 @@ label {
   border-radius: 10px;
 }
 
-small {
+.inputArea small {
   font-size: 0.75rem;
   color: crimson;
 }

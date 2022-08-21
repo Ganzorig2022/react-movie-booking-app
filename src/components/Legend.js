@@ -6,15 +6,15 @@ const LegendItems = () => {
       <ul className={styles.showcase}>
         <li>
           <div className={styles.seat}></div>
-          <small>Захиалаагүй</small>
+          <small>Боломжит</small>
         </li>
         <li>
           <div className={styles.seat + ' ' + styles.occupied}></div>
-          <small>Захиалсан</small>
+          <small>Зарагдсан</small>
         </li>
         <li>
           <div className={styles.seat + ' ' + styles.selected}></div>
-          <small>Сонгосон</small>
+          <small>Таны суудал</small>
         </li>
       </ul>
     </>
