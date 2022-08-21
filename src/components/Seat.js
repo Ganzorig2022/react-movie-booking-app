@@ -3,8 +3,9 @@ import clsx from 'classnames';
 import { getDataFromFireStore, addSeatDataToFireStore } from '../firebase';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useMovieDataContext } from './MovieDataContext';
-import { useUserDataContext } from './userOrderContext';
+import { useMovieDataContext } from '../provider/MovieDataContext';
+import { useUserDataContext } from '../provider/userOrderContext';
+import { usePathNameContext } from '../provider/PathNameContext';
 import LegendItems from './Legend';
 import img from '../img/no-image.jpg';
 
@@ -14,8 +15,20 @@ const MovieHall = () => {
   const [occupiedSeat, setOccupiedSeat] = useState([]);
   const { userData, setUserData } = useUserDataContext();
   const { movieData } = useMovieDataContext();
+  const { pathName, setPathName } = usePathNameContext();
   const seatArr = new Array(33).fill(0);
   const ticketPrice = 7000;
+
+  //==========0. Set Pathname for Navbar Active Page Color=======
+  const getPathName = () => {
+    const path = window.location.pathname;
+
+    setPathName({ ...pathName, home: '', time: '', seat: path });
+  };
+
+  useEffect(() => {
+    getPathName();
+  }, []);
 
   //==========1. Get Seat Data from FireStore database=======
   const getSeatData = async () => {
@@ -100,7 +113,7 @@ const MovieHall = () => {
             </div>
           </div>
           <div className={styles.buttonContainer}>
-            <button onClick={nextPageHandler}>Төлбөр төлөх</button>
+            <button onClick={nextPageHandler}>Захиалга баталгаажуулах</button>
             <button onClick={prevPageHandler}>Буцах</button>
           </div>
         </div>

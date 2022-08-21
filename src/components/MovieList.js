@@ -1,12 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Routes, Route, useNavigate } from 'react-router-dom';
-import { useMovieDataContext } from './MovieDataContext';
+import { useMovieDataContext } from '../provider/MovieDataContext';
+import { usePathNameContext } from '../provider/PathNameContext';
 import styles from '../UI/movieList.module.css';
 
 const MovieList = ({ movies }) => {
   const navigate = useNavigate();
   const { movieData, setMovieData } = useMovieDataContext();
+  const { pathName, setPathName } = usePathNameContext();
   const [isActive, setIsActive] = useState(false);
+
+  //==========0. Set Pathname for Navbar Active Page Color=======
+  const getPathName = () => {
+    const path = window.location.pathname;
+
+    setPathName({ ...pathName, home: path, time: '', seat: '' });
+  };
+
+  useEffect(() => {
+    getPathName();
+  }, []);
 
   if (isActive) return navigate('/time');
   return (

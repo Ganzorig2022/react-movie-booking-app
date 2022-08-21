@@ -49,9 +49,16 @@
 }
 .inputFormArea.success {
   border: 2px solid #2ecc71;
+  background: #9fffc7;
 }
 .inputFormArea.error {
   border: 2px solid #e74c3c;
+  background: #f6dbfc;
+}
+
+.inputArea input:focus {
+  outline: none;
+  background: #f6dbfc;
 }
 .seats {
   /* background-color: #444451; */
@@ -94,7 +101,7 @@ h2 {
 }
 
 .times.active {
-  background-color: #6feaf6;
+  background-color: #9fffc7;
   color: black;
   border: 2px solid crimson;
 }
@@ -103,10 +110,12 @@ h2 {
   width: 100px;
   padding: 5px;
   border-radius: 5px;
-  border: 1px solid #6feaf6;
-  background-color: #dcdcdc;
+  border: 2px solid #6feaf6;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
-
+.selectDay.selected {
+  background-color: #9fffc7;
+}
 label {
   font-size: 0.75rem;
 }
@@ -125,4 +134,9 @@ label {
   padding: 5px 10px;
   margin: 10px;
   border-radius: 10px;
+}
+
+small {
+  font-size: 0.75rem;
+  color: crimson;
 }

@@ -1,6 +1,6 @@
 import './App.css';
 import MovieList from './components/MovieList';
-import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import TimeOrder from './components/Time';
 import Seat from './components/Seat';
 import Navbar from './components/NavBar';
