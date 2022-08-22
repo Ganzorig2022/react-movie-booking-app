@@ -146,7 +146,7 @@ const MovieHall = () => {
             <h3>Нийт үнэ: </h3>
             <p>
               {seatID.length > 0 && !isNaN(+userData.ticket)
-                ? (seatID.length * +userData.ticket * ticketPrice).toFixed(1)
+                ? (seatID.length * ticketPrice).toFixed(1)
                 : ''}{' '}
               ₮
             </p>

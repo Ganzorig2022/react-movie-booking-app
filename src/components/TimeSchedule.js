@@ -62,14 +62,12 @@ const TimeSchedule = () => {
   };
   //=========================Phone Check===============================
   const checkPhone = () => {
-    if (enteredInput.phone.length !== 8) {
-      setIsValid({
-        ...isValid,
-        phoneEmpty: false,
-        phoneValid: false,
-      });
-      return false;
-    } else {
+    let phoneRegex = /^[0-9]{8}$/;
+
+    if (
+      enteredInput.phone.length === 8 &&
+      phoneRegex.test(enteredInput.phone.trim())
+    ) {
       setIsValid({
         ...isValid,
         phoneEmpty: false,
@@ -77,6 +75,13 @@ const TimeSchedule = () => {
       });
       setValidInputs({ ...validInputs, phone: enteredInput.phone });
       return true;
+    } else {
+      setIsValid({
+        ...isValid,
+        phoneEmpty: false,
+        phoneValid: false,
+      });
+      return false;
     }
   };
   //========================Email Check==================================

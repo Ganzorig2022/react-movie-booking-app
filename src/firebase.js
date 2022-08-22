@@ -1,14 +1,4 @@
-import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.8.1/firebase-app.js';
-import {
-  getAuth,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  signOut,
-  onAuthStateChanged,
-  updatePassword,
-  updateEmail,
-} from 'https://www.gstatic.com/firebasejs/9.8.1/firebase-auth.js';
-
+import { initializeApp } from 'firebase/app';
 import {
   getFirestore,
   collection,
@@ -20,7 +10,7 @@ import {
   query,
   updateDoc,
   arrayUnion,
-} from 'https://www.gstatic.com/firebasejs/9.8.1/firebase-firestore.js';
+} from 'firebase/firestore';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyCTnluhlLBvLYVcK5KjgWZ1j4dEAhJuvLw',
@@ -50,13 +40,11 @@ const getDataFromFireStore = async () => {
   return userDataObj;
 };
 
-// =========2. Get User Data from FireStore database=============
+// =========2. Set User Data To FireStore database=============
 
 const addSeatDataToFireStore = async (seatID, userData, docID) => {
   try {
     const docRef = await doc(db, 'userData', docID);
-    const docRefData = await getDoc(docRef);
-    const seat = docRefData.data().seat;
 
     updateDoc(docRef, {
       seat: arrayUnion(...seatID),
