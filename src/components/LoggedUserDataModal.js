@@ -1,6 +1,4 @@
 import classes from '../UI/loggedUserModal.module.css';
-import { getDataFromFireStore } from '../firebase';
-import { useState, useEffect } from 'react';
 import { useModalToggleContext } from '../provider/ModalToggleContext';
 import { useLoggedUserDataContext } from '../provider/LoggedUserDataContext';
 import { useLoggedInContext } from '../provider/LoggedInContext';
