@@ -23,7 +23,7 @@ const MovieHall = () => {
   const getPathName = () => {
     const path = window.location.pathname;
 
-    setPathName({ ...pathName, home: '', time: '', seat: path });
+    setPathName({ ...pathName, home: '', time: '', seat: path, login: '' });
   };
 
   useEffect(() => {

@@ -23,6 +23,7 @@
   /* color: red; */
   /* height: 100%; */
   text-transform: uppercase;
+  height: auto;
 }
 .labelsContainer ul {
   display: flex;
@@ -42,30 +43,27 @@
   border-bottom: 4px solid #6feaf6;
   background-color: black;
 }
-.labelsContainer ul li.active > a {
+.labelsContainer ul li.active {
   color: white;
 }
 .labelsContainer ul li:hover {
   background-color: black;
   border-bottom: 4px solid #6feaf6;
 }
-.labelsContainer ul li:hover > a {
+.labelsContainer ul a:hover {
   color: aliceblue;
 }
-.labelsContainer ul li a {
+.labelsContainer ul a {
   text-decoration: none;
   color: black;
 }
-.main-image {
-  width: 100%;
-  height: 25rem;
-  z-index: 0;
-  overflow: hidden;
+.labelsContainer button {
+  color: black;
+  background-color: #6feaf6;
 }
-
-.main-image img {
-  width: 110%;
-  height: 100%;
-  object-fit: cover;
-  transform: rotateZ(-5deg) translateY(-4rem) translateX(-1rem);
+.labelsContainer button:hover {
+  box-shadow: none;
+  background-color: black;
+  border-bottom: 4px solid #6feaf6;
+  color: white;
 }

@@ -6,7 +6,7 @@ const CancelOrder = () => {
   const navigate = useNavigate();
 
   const prevPageHandler = () => {
-    navigate('/');
+    navigate('/movie');
   };
 
   return (

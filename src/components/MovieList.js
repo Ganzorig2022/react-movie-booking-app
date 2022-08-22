@@ -14,7 +14,7 @@ const MovieList = ({ movies }) => {
   const getPathName = () => {
     const path = window.location.pathname;
 
-    setPathName({ ...pathName, home: path, time: '', seat: '' });
+    setPathName({ ...pathName, home: path, time: '', seat: '', login: '' });
   };
 
   useEffect(() => {

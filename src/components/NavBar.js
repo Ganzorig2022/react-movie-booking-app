@@ -1,30 +1,46 @@
 import styles from '../UI/navBar.module.css';
 import { Link } from 'react-router-dom';
+import UserModal from './LoggedUserDataModal';
 import { usePathNameContext } from '../provider/PathNameContext';
+import { useLoggedInContext } from '../provider/LoggedInContext';
+import { useModalToggleContext } from '../provider/ModalToggleContext';
 
 const Navbar = () => {
   const { pathName } = usePathNameContext();
+  const { isLoggedIn } = useLoggedInContext();
+  const { modalClose, setModalClose } = useModalToggleContext();
 
   return (
     <div className={styles.header}>
+      {isLoggedIn && !modalClose ? <UserModal /> : ''}
       <h1>Ganzorig Cinema</h1>
       <div className={styles.labelsContainer}>
         <ul>
-          <li className={pathName.home === '/' ? styles.active : ''}>
-            <Link id='home' to='/'>
+          <Link id='home' to='/movie'>
+            <li className={pathName.home === '/movie' ? styles.active : ''}>
               Эхлэл
-            </Link>
-          </li>
-          <li className={pathName.time === '/time' ? styles.active : ''}>
-            <Link id='time' to='/time'>
+            </li>
+          </Link>
+          <Link id='time' to='/time'>
+            <li className={pathName.time === '/time' ? styles.active : ''}>
               Цаг захиалга
-            </Link>
-          </li>
-          <li className={pathName.seat === '/seat' ? styles.active : ''}>
-            <Link id='seat' to='/seat'>
+            </li>
+          </Link>
+          <Link id='seat' to='/seat'>
+            <li className={pathName.seat === '/seat' ? styles.active : ''}>
               Суудал захиалга
-            </Link>
-          </li>
+            </li>
+          </Link>
+          <Link id='login' to='/'>
+            <li className={pathName.login === '/' ? styles.active : ''}>
+              {isLoggedIn ? 'Нэвтэрсэн' : 'Нэвтрэх'}
+            </li>
+          </Link>
+          {isLoggedIn && (
+            <button id='modal' onClick={() => setModalClose(false)}>
+              Профайл
+            </button>
+          )}
         </ul>
       </div>
     </div>

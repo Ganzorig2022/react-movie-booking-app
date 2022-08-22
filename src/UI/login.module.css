@@ -1,0 +1,106 @@
+.login {
+  width: 100%;
+  max-width: 30rem;
+  margin: 2rem auto;
+  background-color: white;
+  border-radius: 10px;
+  overflow: hidden;
+  /* box-shadow: 0px 1px 2px 0px rgb(0 255 255 / 70%),
+    1px 2px 4px 0px rgb(0 255 255 / 70%), 2px 4px 8px 0px rgb(0 255 255 / 70%),
+    2px 4px 16px 0px rgb(0 255 255 / 70%); */
+}
+.login form {
+  padding: 2rem;
+}
+.header {
+  background: crimson;
+  padding: 1rem;
+}
+.header h2 {
+  margin: 0;
+  color: white;
+}
+.control {
+  margin: 1rem 0;
+  display: flex;
+  align-items: stretch;
+  flex-direction: column;
+}
+
+.control label,
+.control input {
+  display: block;
+}
+
+.control label {
+  font-weight: bold;
+  flex: 1;
+  color: #464646;
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+}
+
+.control input {
+  flex: 3;
+  font: inherit;
+  padding: 0.35rem 0.35rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.control input:focus {
+  outline: none;
+  border-color: #4f005f;
+  background: #f6dbfc;
+}
+
+.control.invalid input {
+  border: 2.5px solid red;
+  background: #f6dbfc;
+}
+.control.valid input {
+  border: 2px solid #2ecc71;
+  background: #9fffc7;
+}
+
+.actions {
+  text-align: center;
+}
+
+@media (min-width: 768px) {
+  .control {
+    align-items: center;
+    flex-direction: row;
+  }
+}
+
+.button {
+  font: inherit;
+  /* border: 1px solid #4f005f; */
+  background: crimson;
+  color: white;
+  padding: 0.75rem 3.5rem;
+  cursor: pointer;
+  font-size: 1.15rem;
+  border-radius: 30px;
+}
+
+.button:hover,
+.button:active {
+  background: #741188;
+  border-color: #741188;
+}
+
+.button:focus {
+  outline: none;
+}
+
+button:disabled,
+button:focus:disabled,
+button:hover:disabled,
+button:active:disabled {
+  background: #ccc;
+  border-color: #ccc;
+  color: #666666;
+  cursor: not-allowed;
+}

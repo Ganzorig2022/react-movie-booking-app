@@ -41,7 +41,7 @@ const TimeSchedule = () => {
   const getPathName = () => {
     const path = window.location.pathname;
 
-    setPathName({ ...pathName, home: '', time: path, seat: '' });
+    setPathName({ ...pathName, home: '', time: path, seat: '', login: '' });
   };
 
   useEffect(() => {
@@ -144,6 +144,7 @@ const TimeSchedule = () => {
         ...enteredInput,
         ...selectedTime,
         ...selectedOption,
+        movie: movieData.Title,
       });
       alert('Бүх мэдээлэл зөв байна!');
       return true;
@@ -153,9 +154,10 @@ const TimeSchedule = () => {
     }
   };
 
+  console.log(userData);
   //===============5. Omnoh Page-ruu JUMP hiine.=================================
   const prevPageHandler = () => {
-    navigate('/');
+    navigate('/movie');
   };
   //===============5. Next Page-ruu JUMP hiine.=================================
   const nextPageHandler = () => {
@@ -229,14 +231,15 @@ const TimeSchedule = () => {
                   : styles.inputFormArea + ' ' + styles.error
               }
             />
+            {!enteredInput.email.includes('@') &&
+            enteredInput.email.length < 8 &&
+            enteredInput.email.length >= 1 ? (
+              <small>Та имэйлээ зөв оруулна уу.</small>
+            ) : (
+              ''
+            )}
           </div>
-          {!enteredInput.email.includes('@') &&
-          enteredInput.email.length < 8 &&
-          enteredInput.email.length >= 1 ? (
-            <small>Та имэйлээ зөв оруулна уу.</small>
-          ) : (
-            ''
-          )}
+
           <p>Цагаа сонгоно уу:</p>
           <div className={styles.timeListContainer}>
             {timeData.map((time, idx) => {

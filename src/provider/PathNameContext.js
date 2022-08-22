@@ -8,6 +8,7 @@ export const PathNameProvider = (props) => {
     home: '',
     time: '',
     seat: '',
+    login: '',
   });
 
   return (
