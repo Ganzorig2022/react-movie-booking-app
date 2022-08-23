@@ -11,6 +11,11 @@ import {
   updateDoc,
   arrayUnion,
 } from 'firebase/firestore';
+import {
+  getAuth,
+  RecaptchaVerifier,
+  signInWithPhoneNumber,
+} from 'firebase/auth';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyCTnluhlLBvLYVcK5KjgWZ1j4dEAhJuvLw',
@@ -54,5 +59,11 @@ const addSeatDataToFireStore = async (seatID, userData, docID) => {
     alert(error.message);
   }
 };
-
-export { getDataFromFireStore, addSeatDataToFireStore };
+const auth = getAuth(app);
+export {
+  getDataFromFireStore,
+  addSeatDataToFireStore,
+  auth,
+  RecaptchaVerifier,
+  signInWithPhoneNumber,
+};
