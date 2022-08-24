@@ -1,14 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { Routes, Route, useNavigate } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import { useMovieDataContext } from '../provider/MovieDataContext';
 import { usePathNameContext } from '../provider/PathNameContext';
 import styles from '../UI/movieList.module.css';
 
 const MovieList = ({ movies }) => {
   const navigate = useNavigate();
-  const { movieData, setMovieData } = useMovieDataContext();
+  const { setMovieData } = useMovieDataContext();
   const { pathName, setPathName } = usePathNameContext();
-  const [isActive, setIsActive] = useState(false);
 
   //==========0. Set Pathname for Navbar Active Page Color=======
   const getPathName = () => {
@@ -21,7 +20,6 @@ const MovieList = ({ movies }) => {
     getPathName();
   }, []);
 
-  if (isActive) return navigate('/time');
   return (
     <div className={styles.movieContainer}>
       {movies.map((movie, idx) => (
@@ -29,11 +27,13 @@ const MovieList = ({ movies }) => {
           <div className={styles.headerContainer}>
             <h2 className={styles.header}>{movie.Title}</h2>
           </div>
-          <img src={movie.Poster} alt='movie'></img>
+          <Link id='time' to='/time'>
+            <img src={movie.Poster} alt='movie'></img>
+          </Link>
           <button
             onClick={() => {
               setMovieData(movie);
-              setIsActive(true);
+              navigate('/time');
             }}
             className={styles.orderText}
           >

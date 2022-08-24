@@ -46,9 +46,10 @@
   background-color: crimson;
 }
 button {
-  color: azure;
+  /* color: azure;
   outline: 0;
-  border: none;
+  border: none; */
+  cursor: pointer !important;
 }
 button:active {
   transform: scale(1.1);
