@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 const CancelOrder = () => {
   const navigate = useNavigate();
 
-  const prevPageHandler = () => {
+  const cancelHandler = () => {
     navigate('/movie');
   };
 
@@ -14,7 +14,7 @@ const CancelOrder = () => {
       <div className={styles.timeContainer}>
         <p className={classes.cancelSelectContainer}>Захиалга цуцлагдлаа.</p>{' '}
         <div className={styles.buttonContainer}>
-          <button onClick={prevPageHandler}>Эхлэл хуудас руу буцах</button>
+          <button onClick={cancelHandler}>Эхлэл хуудас руу буцах</button>
         </div>
       </div>
     </div>

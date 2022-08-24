@@ -105,6 +105,9 @@ h2 {
   color: black;
   border: 2px solid crimson;
 }
+.times.invalid {
+  pointer-events: none;
+}
 
 .selectDay {
   width: 100px;

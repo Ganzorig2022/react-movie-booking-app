@@ -74,6 +74,9 @@
   background-color: crimson;
   pointer-events: none;
 }
+.seats.invalid {
+  pointer-events: none;
+}
 
 .seatsContainer {
   display: flex;

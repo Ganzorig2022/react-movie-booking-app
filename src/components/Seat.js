@@ -1,11 +1,12 @@
-import styles from '../UI/movieSeat.module.css';
-import clsx from 'classnames';
-import { getDataFromFireStore, addSeatDataToFireStore } from '../firebase';
 import { useState, useEffect } from 'react';
+import { getDataFromFireStore, addSeatDataToFireStore } from '../firebase';
 import { useNavigate } from 'react-router-dom';
 import { useMovieDataContext } from '../provider/MovieDataContext';
 import { useUserDataContext } from '../provider/userOrderContext';
 import { usePathNameContext } from '../provider/PathNameContext';
+import { useLoggedInContext } from '../provider/LoggedInContext';
+import styles from '../UI/movieSeat.module.css';
+import clsx from 'classnames';
 import LegendItems from './Legend';
 import img from '../img/no-image.jpg';
 
@@ -13,9 +14,11 @@ const MovieHall = () => {
   const navigate = useNavigate();
   const [seatID, setSeatID] = useState([]);
   const [occupiedSeat, setOccupiedSeat] = useState([]);
-  const { userData, setUserData } = useUserDataContext();
   const { movieData } = useMovieDataContext();
+  const { userData } = useUserDataContext();
   const { pathName, setPathName } = usePathNameContext();
+  const { isLoggedIn } = useLoggedInContext();
+
   const seatArr = new Array(33).fill(0);
   const ticketPrice = 7000;
 
@@ -59,25 +62,43 @@ const MovieHall = () => {
   // ========================4. Jump to NEXT page==============
   const nextPageHandler = () => {
     // navigate(null);
-    if (checkEqualSeatAndTicket()) {
-      let document = JSON.parse(localStorage.getItem('docID'));
-      let docID = document.docID;
-      addSeatDataToFireStore(seatID, userData, docID);
-      alert('Таны захиалга амжилттай баталгаажлаа!');
-    }
+    if (isLoggedIn) {
+      if (checkEqualSeatAndTicket()) {
+        let document = JSON.parse(localStorage.getItem('docID'));
+        let docID = document.docID;
+        addSeatDataToFireStore(seatID, userData, docID);
+        alert('Таны захиалга амжилттай баталгаажлаа!');
+      }
+    } else alert('Та заавал нэвтэрч орно уу!');
   };
 
   const cancelOrderHandler = () => {
-    navigate('/cancel');
+    const userDataIsEmpty = checkUserDataIsEmpty();
+    if (isLoggedIn && !userDataIsEmpty) navigate('/cancel');
+    alert(
+      'Та заавал нэвтэрч ороод өмнөх хуудсаас захиалгаа өгсөнөөр цуцлах боломжтой!'
+    );
   };
   // ========================5. Check if seat number is equal to ticket number or not==============
   const checkEqualSeatAndTicket = () => {
-    if (seatID.length !== +userData.ticket) {
-      alert('Та захиалсан билетний тоотой тэнцүү тоотой суудал сонгоно уу?');
+    const userDataIsEmpty = checkUserDataIsEmpty();
+    if (userDataIsEmpty) {
+      alert('Та өмнөх хуудас руу орж билетээ сонгоно уу!');
       return false;
-    } else return true;
+    } else {
+      if (seatID.length === +userData.ticket) return true;
+      if (seatID.length !== +userData.ticket) {
+        alert('Та захиалсан билетний тоотой тэнцүү тоотой суудал сонгоно уу!');
+        return false;
+      }
+    }
   };
 
+  const checkUserDataIsEmpty = () => {
+    const userDataIsEmpty = Object.entries(userData).length === 0;
+    if (userDataIsEmpty) return true;
+    return false;
+  };
   return (
     <>
       <h1>Суудал сонголт</h1>
@@ -103,7 +124,9 @@ const MovieHall = () => {
                       key={idx}
                       className={clsx(
                         styles.seats,
-                        isSelected
+                        !isLoggedIn
+                          ? styles.seats + ' ' + styles.invalid
+                          : isSelected
                           ? styles.seats + ' ' + styles.selected
                           : styles.seats,
                         isOccupied
@@ -138,9 +161,7 @@ const MovieHall = () => {
             <h3>Билетын тоо:</h3>
             <p> {userData.ticket} </p>
             <h3>Суудлын №:</h3>
-            <p>
-              {seatID.join(', ')} ({seatID.length} ш)
-            </p>
+            <p>{seatID.join(', ')})</p>
             <h3>Билетын үнэ: </h3>
             <p>7000 ₮</p>
             <h3>Нийт үнэ: </h3>

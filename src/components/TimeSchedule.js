@@ -3,9 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import { useMovieDataContext } from '../provider/MovieDataContext';
 import { useUserDataContext } from '../provider/userOrderContext';
 import { usePathNameContext } from '../provider/PathNameContext';
-import styles from '../UI/timeList.module.css';
+import { useLoggedInContext } from '../provider/LoggedInContext';
 import timeData from '../TimeData.json';
 import weekData from '../WeekData.json';
+import styles from '../UI/timeList.module.css';
 import img from '../img/no-image.jpg';
 
 const TimeSchedule = () => {
@@ -35,6 +36,7 @@ const TimeSchedule = () => {
   const { movieData } = useMovieDataContext();
   const { userData, setUserData } = useUserDataContext();
   const { pathName, setPathName } = usePathNameContext();
+  const { isLoggedIn } = useLoggedInContext();
   const navigate = useNavigate();
 
   //==========0. Set Pathname for Navbar Active Page Color=======
@@ -154,18 +156,18 @@ const TimeSchedule = () => {
     }
   };
 
-  console.log(userData);
   //===============5. Omnoh Page-ruu JUMP hiine.=================================
   const prevPageHandler = () => {
     navigate('/movie');
   };
   //===============5. Next Page-ruu JUMP hiine.=================================
   const nextPageHandler = () => {
-    if (movieData === '') alert('Та өмнөх хуудас руу орж киногоо сонгоно уу');
-    else if (saveAllData()) navigate('/seat');
+    if (isLoggedIn) {
+      if (movieData === '') alert('Та өмнөх хуудас руу орж киногоо сонгоно уу');
+      else if (saveAllData()) navigate('/seat');
+    } else alert('Та заавал нэвтэрч орно уу!');
   };
 
-  // console.log('checking', validInputs);
   return (
     <div className={styles.timeWrapper}>
       <div className={styles.leftImg}>
@@ -190,6 +192,7 @@ const TimeSchedule = () => {
                   ? styles.inputFormArea + ' ' + styles.success
                   : styles.inputFormArea + ' ' + styles.error
               }
+              disabled={isLoggedIn ? false : true}
             />
             {enteredInput.name.length <= 3 && enteredInput.name.length >= 1 ? (
               <small>Та 3-аас дээш үсэг оруулна уу.</small>
@@ -210,6 +213,7 @@ const TimeSchedule = () => {
                   ? styles.inputFormArea + ' ' + styles.success
                   : styles.inputFormArea + ' ' + styles.error
               }
+              disabled={isLoggedIn ? false : true}
             />
             {enteredInput.phone.length < 8 && enteredInput.phone.length >= 1 ? (
               <small>Та яг 8н ш тоо оруулна уу.</small>
@@ -230,6 +234,7 @@ const TimeSchedule = () => {
                   ? styles.inputFormArea + ' ' + styles.success
                   : styles.inputFormArea + ' ' + styles.error
               }
+              disabled={isLoggedIn ? false : true}
             />
             {!enteredInput.email.includes('@') &&
             enteredInput.email.length < 8 &&
@@ -248,9 +253,11 @@ const TimeSchedule = () => {
                 <span
                   id={idx}
                   className={
-                    isSelected
-                      ? styles.times + ' ' + styles.active
-                      : styles.times
+                    isLoggedIn
+                      ? isSelected
+                        ? styles.times + ' ' + styles.active
+                        : styles.times
+                      : styles.times + ' ' + styles.invalid
                   }
                   key={idx}
                   name='time'
@@ -264,7 +271,11 @@ const TimeSchedule = () => {
           <p>Өдрөө сонгоно уу:</p>
           <div>
             <label>Өдрүүд: </label>
-            <select className={styles.selectDay} onChange={selectOptionHandler}>
+            <select
+              className={styles.selectDay}
+              onChange={selectOptionHandler}
+              disabled={isLoggedIn ? false : true}
+            >
               {weekData.map((day, idx) => {
                 return (
                   <option key={idx} name='day' value={day}>
@@ -277,7 +288,11 @@ const TimeSchedule = () => {
           <p>Тасалбарын тоог сонгоно уу:</p>
           <div>
             <label>Тасалбар: </label>
-            <select className={styles.selectDay} onChange={selectOptionHandler}>
+            <select
+              className={styles.selectDay}
+              onChange={selectOptionHandler}
+              disabled={isLoggedIn ? false : true}
+            >
               {ticketArr.map((el, idx) => {
                 return (
                   <option key={idx} name='ticket' value={idx + 1}>

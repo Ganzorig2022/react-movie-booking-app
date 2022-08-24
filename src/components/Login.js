@@ -19,6 +19,7 @@ const Login = () => {
   const [openVerifyBtn, setOpenVerifyBtn] = useState(false);
   const [phoneIsValid, setPhoneIsValid] = useState();
   const [OTPIsValid, setOTPIsValid] = useState(false);
+  const [openLoginBtn, setOpenLoginBtn] = useState(true);
   const { loggedUserData, setLoggedUserData } = useLoggedUserDataContext();
   const { pathName, setPathName } = usePathNameContext();
   const { isLoggedIn, setIsLoggedIn } = useLoggedInContext();
@@ -33,66 +34,84 @@ const Login = () => {
     getPathName();
   }, []);
 
-  // useEffect(() => {
-  //   setFormIsValid(OTPIsValid && enteredPhone.trim().length === 8);
-  // }, [OTP, enteredPhone]);
-
   useEffect(() => {
     getData();
   }, []);
 
+  // ==============1. Firestore-oos loggedUserData awah=====================
   const getData = async () => {
     const data = await getDataFromFireStore();
     setLoggedUserData([...data.userData]);
   };
 
+  // =============2.Handler functions==========================
   const inputChangeHandler = (event) => {
     const { id, value } = event.target;
     if (id === 'phone') setEnteredPhone(value);
     if (id === 'code') setOTP(value);
   };
 
-  // console.log(typeof OTP);
   const validatePhoneHandler = () => {
     let phoneRegex = /^[0-9]{8}$/;
 
-    setPhoneIsValid(
-      enteredPhone.trim().length === 8 && phoneRegex.test(enteredPhone.trim())
-    );
+    if (
+      enteredPhone.trim().length === 8 &&
+      phoneRegex.test(enteredPhone.trim())
+    ) {
+      setPhoneIsValid(enteredPhone);
+      return true;
+    } else return false;
+
+    // setPhoneIsValid(
+    //   enteredPhone.trim().length === 8 && phoneRegex.test(enteredPhone.trim())
+    // );
   };
 
   const submitHandler = (event) => {
     event.preventDefault();
+    const userPhoneIsRegistered = userPhoneIsAvailable();
 
-    const result = loggedUserData.find((el) => el.phone === enteredPhone);
-    if (!result) alert('Таны нэвтрэх имэйл, утас буруу байна!');
-    else {
+    if (isLoggedIn && userPhoneIsRegistered) {
       alert('Та амжилттай нэвтэрлээ');
-      setIsLoggedIn(true);
       navigate('/movie');
+    } else {
+      alert('Та бүртгэлгүй байна!');
     }
+  };
+  //================Check if user phone is registered===================
+  const userPhoneIsAvailable = () => {
+    const result = loggedUserData.find((user) => user.phone === enteredPhone);
+    if (result) return true;
+    if (!result) return false;
   };
 
   //============Authentication with Code from Phone Number using FireBase============
   // 1.Нэвтрэх код илгээх товчин дээр дарахад ажиллана.
   const requestOTP = () => {
-    setOpenSignInInput(true);
-    setOpenVerifyBtn(true);
-    // if (enteredPhone.length === 8) {
-    //   setOpenSignInInput(true);
-    //   setOpenVerifyBtn(true);
-    //   let phoneNumber = '+976' + enteredPhone;
-    //   generateRecaptcha();
-    //   const appVerifier = window.recaptchaVerifier;
-    //   signInWithPhoneNumber(auth, phoneNumber, appVerifier)
-    //     .then((confirmationResult) => {
-    //       window.confirmationResult = confirmationResult;
-    //     })
-    //     .catch((error) => {
-    //       alert(error.message);
-    //     });
-    // } else alert('Та заавал 8н оронтой тоо оруулна уу!');
+    const userPhoneIsValid = validatePhoneHandler();
+    const userPhoneIsRegistered = userPhoneIsAvailable();
+
+    if (userPhoneIsValid) {
+      if (userPhoneIsRegistered) {
+        // setOpenSignInInput(true);
+        // setOpenVerifyBtn(true);
+        let phoneNumber = '+976' + enteredPhone;
+        generateRecaptcha();
+        const appVerifier = window.recaptchaVerifier;
+        signInWithPhoneNumber(auth, phoneNumber, appVerifier)
+          .then((confirmationResult) => {
+            // Code sending is successfull.
+            window.confirmationResult = confirmationResult;
+            setOpenSignInInput(true);
+            setOpenVerifyBtn(true);
+          })
+          .catch((error) => {
+            alert(error.message);
+          });
+      } else alert('Уучлаарай, таны оруулсан утасны дугаар бүртгэлгүй байна!');
+    } else alert('Та заавал 8н оронтой ТОО оруулна уу!');
   };
+
   const generateRecaptcha = () => {
     window.recaptchaVerifier = new RecaptchaVerifier(
       'recaptcha-container',
@@ -104,112 +123,137 @@ const Login = () => {
     );
   };
 
-  // 2. Нэвтрэх Код Баталгаажуулах товчин дээр дарахад ажиллана.
+  // ===========2. Нэвтрэх Код Баталгаажуулах товчин дээр дарахад ажиллана.
   const verifyOTPHandler = () => {
-    setOpenVerifyBtn(false);
-    setOTPIsValid(true);
+    const OTPInputIsOkay = checkCodeLength();
 
-    // if (OTP.length === 6) {
-    //   //verify OTP
-    //   let confirmationResult = window.confirmationResult;
-    //   if (!confirmationResult) {
-    //     alert(
-    //       'Таны оруулсан код буруу байна. Та утсан дээр ирсэн 6 оронтой кодоо зөв оруулна уу!'
-    //     );
-    //   } else {
-    //     setOpenVerifyBtn(false);
-    //     // setOTP(Number(OTP));
-    //     // console.log(OTP);
-    //     confirmationResult
-    //       .confirm(OTP)
-    //       .then((result) => {
-    //         // User signed in successfully.
-    //         setOTPIsValid(true);
-    //         alert('Таны оруулсан код зөв байна!');
-    //       })
-    //       .catch((error) => {
-    //         // alert(error.message);
-    //         alert('Та кодны хугацаа дууссан байна!');
-    //       });
-    //   }
-    // } else
-    //   alert('Та нэвтрэх код огт оруулаагүй байна. 6 оронтой тоо оруулна уу!');
+    if (OTPInputIsOkay) {
+      // setOpenVerifyBtn(false);
+      // setOTPIsValid(true);
+      // setIsLoggedIn(true);
+      let confirmationResult = window.confirmationResult;
+      if (!confirmationResult) {
+        alert(
+          'Таны оруулсан код буруу байна. Та утсан дээр ирсэн 6 оронтой кодоо зөв оруулна уу!'
+        );
+      } else {
+        confirmationResult
+          .confirm(OTP)
+          .then((result) => {
+            // User signed in successfully.
+            setOpenVerifyBtn(false);
+            setOTPIsValid(true);
+            setIsLoggedIn(true);
+            setOpenLoginBtn(false);
+            alert('Таны оруулсан код зөв байна!');
+          })
+          .catch((error) => {
+            console.log(error.message);
+          });
+      }
+    }
   };
-  console.log(OTPIsValid);
+
+  // =====================Code Input Checking Helper function====================
+  const checkCodeLength = () => {
+    const cyrillicRegex =
+      /^[аАбБвВгГдДеЕёЁжЖзЗиИйЙкКлЛмМнНоОпПрРсСтТуУфФхХцЦчЧшШщЩъЪыЫьЬэЭюЮяЯ]+$/;
+    const codeNumRegex = /^[0-9]+$/;
+
+    if (cyrillicRegex.test(OTP)) {
+      alert('Та үсгийн фонтоо ENGLISH болгоно уу!');
+      return false;
+    } else {
+      if (codeNumRegex.test(OTP)) {
+        if (OTP.length === 6) return true;
+        if (OTP.length < 6 && OTP.length >= 1) {
+          alert('Та яг 6н оронтой тоо оруулна уу!');
+          return false;
+        }
+        if (OTP.length === 0) {
+          alert('Таны код оруулах хэсэг хоосон байна!');
+          return false;
+        }
+      } else {
+        alert('Та зөвхөн тоо оруулна уу!');
+        return false;
+      }
+    }
+  };
   return (
     <div className={classes.login}>
       <header className={classes.header}>
         <h2>Нэвтрэх</h2>
       </header>
-      <main>
-        <div
-          className={`${classes.control} ${
-            phoneIsValid === false ? classes.invalid : ''
-          }`}
-        >
-          <label htmlFor='password'>Утасны дугаар*</label>
-          <input
-            type='phone'
-            id='phone'
-            value={enteredPhone}
-            onChange={inputChangeHandler}
-            onBlur={validatePhoneHandler}
-          />
-        </div>
-        {openSignInInput && (
+      {openLoginBtn && (
+        <main>
           <div
             className={`${classes.control} ${
-              OTPIsValid === false ? classes.invalid : ''
+              phoneIsValid === false ? classes.invalid : ''
             }`}
           >
-            <label htmlFor='code'> Нэвтрэх код*</label>
+            <label htmlFor='password'>Утасны дугаар*</label>
             <input
-              type='text'
-              id='code'
-              value={isNaN(OTP) ? '' : OTP}
+              type='phone'
+              id='phone'
+              value={enteredPhone}
               onChange={inputChangeHandler}
-              onBlur={verifyOTPHandler}
-              disabled={OTPIsValid}
+              onBlur={validatePhoneHandler}
             />
           </div>
-        )}
-        <div id='recaptcha-container'></div>
-        {!openSignInInput && (
-          <div className={classes.actions}>
-            <button
-              type='submit'
-              className={classes.button}
-              onClick={requestOTP}
-              disabled={isLoggedIn}
+          {openSignInInput && (
+            <div
+              className={`${classes.control} ${
+                OTPIsValid === false ? classes.invalid : ''
+              }`}
             >
-              Нэвтрэх код утас руу илгээх
-            </button>
-          </div>
-        )}
-        {openVerifyBtn && (
-          <div className={classes.actions}>
-            <button
-              type='submit'
-              className={classes.button}
-              onClick={verifyOTPHandler}
-            >
-              Нэвтрэх код баталгаажуулах
-            </button>
-          </div>
-        )}
+              <label htmlFor='code'> Нэвтрэх код*</label>
+              <input
+                type='text'
+                id='code'
+                value={OTP}
+                onChange={inputChangeHandler}
+              />
+            </div>
+          )}
+          <div id='recaptcha-container'></div>
+          {!openSignInInput && (
+            <div className={classes.actions}>
+              <button
+                type='submit'
+                className={classes.button}
+                onClick={requestOTP}
+                disabled={isLoggedIn}
+              >
+                Нэвтрэх код утас руу илгээх
+              </button>
+            </div>
+          )}
+          {openVerifyBtn && (
+            <div className={classes.actions}>
+              <button
+                type='submit'
+                className={classes.button}
+                onClick={verifyOTPHandler}
+              >
+                Нэвтрэх код баталгаажуулах
+              </button>
+            </div>
+          )}
 
-        {OTPIsValid && (
-          <div className={classes.actions}>
-            <button
-              type='submit'
-              className={classes.button}
-              onClick={submitHandler}
-            >
-              Нэвтрэх {'>'} Кино сонголт
-            </button>
-          </div>
-        )}
-      </main>
+          {OTPIsValid && (
+            <div className={classes.actions}>
+              <button
+                type='submit'
+                className={classes.button}
+                onClick={submitHandler}
+              >
+                Нэвтрэх {'>'} Кино сонголт
+              </button>
+            </div>
+          )}
+        </main>
+      )}
     </div>
   );
 };
