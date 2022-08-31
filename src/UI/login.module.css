@@ -50,7 +50,7 @@
 
 .control input:focus {
   outline: none;
-  border-color: #4f005f;
+  border: 3px solid #5f0000;
   background: #f6dbfc;
 }
 
@@ -62,7 +62,9 @@
   border: 2px solid #2ecc71;
   background: #9fffc7;
 }
-
+.control input:disabled {
+  background: #e5e4e4;
+}
 .actions {
   text-align: center;
 }
@@ -79,10 +81,11 @@
   /* border: 1px solid #4f005f; */
   background: crimson;
   color: white;
-  padding: 0.75rem 3.5rem;
+  padding: 0.75rem 2rem;
   cursor: pointer;
   font-size: 1.15rem;
   border-radius: 30px;
+  margin: 5px;
 }
 
 .button:hover,
