@@ -12,7 +12,7 @@ const Navbar = () => {
 
   return (
     <div className={styles.header}>
-      {isLoggedIn && !modalClose ? <UserModal /> : ''}
+      {modalClose ? <UserModal /> : ''}
       <h1>Ganzorig Cinema</h1>
       <div className={styles.labelsContainer}>
         <ul>
@@ -37,7 +37,10 @@ const Navbar = () => {
             </li>
           </Link>
           {isLoggedIn && (
-            <button id='modal' onClick={() => setModalClose(false)}>
+            <button
+              id='modal'
+              onClick={() => setModalClose((prevState) => !prevState)}
+            >
               Профайл
             </button>
           )}

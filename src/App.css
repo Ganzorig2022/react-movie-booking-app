@@ -46,3 +46,8 @@ button:hover {
     0.05vw 0 0.05vw #ed1c24, -0.05vw 0 0.3vw #ed1c24, 0.05vw 0 0.2vw #ed1c24,
     -0.1vw 0 0.2vw #f9343b, -0.05vw 0 0 #f9343b, 0 0 1.5vw #f9343b;
 }
+
+button {
+  color: #ffffff;
+  border: 0;
+}

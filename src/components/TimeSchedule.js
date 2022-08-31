@@ -4,8 +4,8 @@ import { useMovieDataContext } from '../provider/MovieDataContext';
 import { useUserDataContext } from '../provider/userOrderContext';
 import { usePathNameContext } from '../provider/PathNameContext';
 import { useLoggedInContext } from '../provider/LoggedInContext';
-import timeData from '../TimeData.json';
-import weekData from '../WeekData.json';
+import timeData from '../assets/TimeData.json';
+import weekData from '../assets/WeekData.json';
 import styles from '../UI/timeList.module.css';
 import img from '../img/no-image.jpg';
 

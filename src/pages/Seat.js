@@ -1,19 +1,21 @@
 import { useState, useEffect } from 'react';
-import { getDataFromFireStore, addSeatDataToFireStore } from '../firebase';
 import { useNavigate } from 'react-router-dom';
+import {
+  useGetDataFromFire,
+  addSeatDataToFireStore,
+} from '../hooks/useFirebase';
 import { useMovieDataContext } from '../provider/MovieDataContext';
 import { useUserDataContext } from '../provider/userOrderContext';
 import { usePathNameContext } from '../provider/PathNameContext';
 import { useLoggedInContext } from '../provider/LoggedInContext';
 import styles from '../UI/movieSeat.module.css';
 import clsx from 'classnames';
-import LegendItems from './Legend';
+import LegendItems from '../components/Legend';
 import img from '../img/no-image.jpg';
 
 const MovieHall = () => {
   const navigate = useNavigate();
   const [seatID, setSeatID] = useState([]);
-  const [occupiedSeat, setOccupiedSeat] = useState([]);
   const { movieData } = useMovieDataContext();
   const { userData } = useUserDataContext();
   const { pathName, setPathName } = usePathNameContext();
@@ -34,15 +36,7 @@ const MovieHall = () => {
   }, []);
 
   //==========1. Get Seat Data from FireStore database=======
-  const getSeatData = async () => {
-    const data = await getDataFromFireStore();
-    const seatData = await data.seat;
-    setOccupiedSeat([...seatData]);
-  };
-
-  useEffect(() => {
-    getSeatData();
-  }, []);
+  const { allOccupiedSeat } = useGetDataFromFire();
 
   //==============2. Get Seat Number, then set it=========================
   const inputClickHandler = (event) => {
@@ -117,7 +111,7 @@ const MovieHall = () => {
               <div className={styles.suudalContainer}>
                 {seatArr.map((seat, idx) => {
                   const isSelected = seatID.includes(idx);
-                  const isOccupied = occupiedSeat.includes(idx);
+                  const isOccupied = allOccupiedSeat.includes(idx);
                   return (
                     <div
                       id={idx}
@@ -161,7 +155,7 @@ const MovieHall = () => {
             <h3>Билетын тоо:</h3>
             <p> {userData.ticket} </p>
             <h3>Суудлын №:</h3>
-            <p>{seatID.join(', ')})</p>
+            <p>{seatID.join(', ')}</p>
             <h3>Билетын үнэ: </h3>
             <p>7000 ₮</p>
             <h3>Нийт үнэ: </h3>

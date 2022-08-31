@@ -1,5 +1,5 @@
 import styles from '../UI/timeList.module.css';
-import TimeSchedule from './TimeSchedule';
+import TimeSchedule from '../components/TimeSchedule';
 
 const TimeOrder = () => {
   return (

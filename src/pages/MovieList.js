@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useMovieDataContext } from '../provider/MovieDataContext';
 import { usePathNameContext } from '../provider/PathNameContext';
+
 import styles from '../UI/movieList.module.css';
 
 const MovieList = ({ movies }) => {
@@ -28,7 +29,14 @@ const MovieList = ({ movies }) => {
             <h2 className={styles.header}>{movie.Title}</h2>
           </div>
           <Link id='time' to='/time'>
-            <img src={movie.Poster} alt='movie'></img>
+            <img
+              src={movie.Poster}
+              alt='movie'
+              onClick={() => {
+                setMovieData(movie);
+                navigate('/time');
+              }}
+            ></img>
           </Link>
           <button
             onClick={() => {
